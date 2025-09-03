@@ -1,36 +1,83 @@
-import type { Property } from "@/components/property/PropertyCard"; // Import the Property type
-import PropertyCard from "@/components/property/PropertyCard"; // Assume this component exists
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { styles } from "@/styles";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-export default function Home() {
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const response = await axios.get("/api/properties");
-        setProperties(response.data);
-      } catch (error) {
-        console.error("Error fetching properties:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProperties();
-  }, []);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
+export default function index() {
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {properties.map((property) => (
-        <PropertyCard key={property.id} property={property} />
-      ))}
-    </div>
-  );
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.navGroup}>
+          <Ionicons name="arrow-back" size={25} />
+          <Image source={require('@/assets/images/logo.png')} />
+        </View>
+        <Text style={styles.largeText}>Sign in to your</Text>
+        <Text style={styles.largeText}>Account</Text>
+        <Text style={styles.smallText}>
+          Enter your email and password to sign in.
+        </Text>
+
+        <View style={styles.formGroup}>
+          <View>
+            <Text style={styles.placeholderText}>Email</Text>
+            <TextInput keyboardType="email-address" style={styles.inputField} />
+          </View>
+
+          <View style={{ marginTop: 15 }}>
+            <Text style={styles.placeholderText}>Password</Text>
+            <View style={styles.passwordGroup}>
+              <TextInput style={{ flex: 1 }} />
+              <FontAwesome name="eye-slash" size={24} color="#7E7B7B" />
+            </View>
+          </View>
+          <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+        </View>
+
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Sign In</Text>
+        </TouchableOpacity>
+
+        <View style={styles.dividerGroup}>
+          <View style={styles.divider}></View>
+          <Text style={styles.dividerText}>
+            Or
+          </Text>
+          <View style={styles.divider}></View>
+        </View>
+
+        <View style={styles.socialMediaButtonGroup}>
+          <TouchableOpacity style={styles.socialMediaButton}>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 10
+            }}>
+              <Image source={require("@/assets/images/google.png")} />
+              <Text style={styles.socialMediaButtonText}>Continue with google</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.socialMediaButton}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 5,
+              }}
+            >
+              <Image source={require("@/assets/images/facebook.png")} />
+              <Text style={styles.socialMediaButtonText}>
+                Continue with Facebook
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+          <View style={styles.subTextGroup}>
+          <Text style={styles.subText}>Don't have an account?</Text>
+          <Text style={styles.subTextJoin}>Join now</Text>
+        </View>
+
+      </SafeAreaView>
+    </SafeAreaProvider>
+  )
 }
