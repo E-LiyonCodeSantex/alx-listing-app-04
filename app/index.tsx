@@ -1,9 +1,10 @@
+import type { Property } from "@/components/property/PropertyCard"; // Import the Property type
 import PropertyCard from "@/components/property/PropertyCard"; // Assume this component exists
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [properties, setProperties] = useState([]);
+  const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
